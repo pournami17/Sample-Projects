@@ -1,0 +1,12 @@
+var activity = {
+  "activityType": [
+    {
+      "activityTypeName": "Project management",
+      "activityTypeId":1
+    },
+    {
+      "activityTypeName": "Training",
+      "activityTypeId":2
+    }
+  ]
+}

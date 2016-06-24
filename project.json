@@ -1,0 +1,12 @@
+var project = {
+  "projects": [
+    {
+      "projectName": "Project1",
+      "projectId": 123
+    },
+    {
+      "projectName": "Project2",
+      "projectId": 456
+    }
+  ]
+}
