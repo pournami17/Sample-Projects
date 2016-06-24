@@ -1,5 +1,4 @@
-var activity = {
-  "activityType": [
+[
     {
       "activityTypeName": "Project management",
       "activityTypeId":1
@@ -7,6 +6,17 @@ var activity = {
     {
       "activityTypeName": "Training",
       "activityTypeId":2
+    },
+    {
+      "activityTypeName": "Coding",
+      "activityTypeId":3
+    },
+    {
+      "activityTypeName": "HTML/CSS",
+      "activityTypeId":4
+    },
+    {
+      "activityTypeName": "Sales",
+      "activityTypeId":5
     }
-  ]
-}
+]

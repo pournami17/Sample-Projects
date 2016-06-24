@@ -3,30 +3,65 @@ window.onload = function(){
     defaultDate()
 };
 
-function defaultDate()
-{
-    var d = new Date(),
-        day = '' + d.getDate(),
-        month = '' + (d.getMonth()+1),
-        year = d.getFullYear();
-        
-        if(month.length < 2)
-        {
-          month = '0'+ month;
-        }
-        if(day.length < 2) 
-        {
-          day = '0' + day;
-        }
-        console.log(d);
-    // var displayDate = today.getFullYear();
-    // var localTime = today.toLocaleString();
-    document.getElementById("demo").innerHTML = [ day, month, year].join('-');
+loadJson('project.json',"projectList");
+loadJson('activityType.json',"activityList");
 
+//Function to load multiple JSON
 
+function loadJson(url,selectId) {
+var xmlhttpResp = new XMLHttpRequest();
+xmlhttpResp.overrideMimeType("application/json");
+xmlhttpResp.open('GET', url, true);
+xmlhttpResp.onreadystatechange = function () {
+          if (xmlhttpResp.readyState == 4 && xmlhttpResp.status == "200") {
+          loadSelect(JSON.parse(xmlhttpResp.responseText),selectId);
+          }
+    };
+xmlhttpResp.send(null);
 }
 
+function loadSelect(populateList,divID){
+  
+    if(divID == "activityList"){
+        for (i in populateList) {
+          var opt = document.createElement("option");
+          opt.text = populateList[i].activityTypeName;
+          opt.value = populateList[i].activityTypeName;
+          var select =document.getElementById("activityList");
+          select.appendChild(opt);
+        }
+    }
 
-// function selLoc(s) {
-//   return s.options[s.selectedIndex].value
-// }
+    if(divID == "projectList"){
+        for (i in populateList) {
+          var opt = document.createElement("option");
+          opt.text = populateList[i].projectName;
+          opt.value = populateList[i].projectName;
+          var select =document.getElementById("projectList");
+          select.appendChild(opt);
+        }
+    }  
+  
+}
+
+function defaultDate(){
+
+    var today = new Date(),
+        day = today.getDate(),
+        dateArray = [];
+
+    for (i=0 ; i<7 ; i++) {
+        var olderDate = new Date(today.setDate(day - i)); //Setting Dates
+        dateArray.push(olderDate.getDate() + '/' + (olderDate.getMonth()+1) + '/' + olderDate.getFullYear());
+      
+    }
+    for (j=0 ; j < dateArray.length; j++) {
+        var opt = document.createElement("option");
+        opt.text = dateArray[j];
+        opt.value = dateArray[j];
+        var select =document.getElementById("dateList");
+        select.appendChild(opt);
+    }
+    console.log(dateArray);
+}
+
