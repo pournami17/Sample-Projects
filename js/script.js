@@ -9,6 +9,7 @@ loadJson('activityType.json',"activityList");
 //Function to load multiple JSON
 
 function loadJson(url,selectId) {
+<<<<<<< HEAD
     var xmlhttpResp = new XMLHttpRequest();
     xmlhttpResp.overrideMimeType("application/json");
     xmlhttpResp.open('GET', url, true);
@@ -22,6 +23,19 @@ function loadJson(url,selectId) {
 
 // Function  to populate Select Boxes using JSON
 
+=======
+var xmlhttpResp = new XMLHttpRequest();
+xmlhttpResp.overrideMimeType("application/json");
+xmlhttpResp.open('GET', url, true);
+xmlhttpResp.onreadystatechange = function () {
+          if (xmlhttpResp.readyState == 4 && xmlhttpResp.status == "200") {
+          loadSelect(JSON.parse(xmlhttpResp.responseText),selectId);
+          }
+    };
+xmlhttpResp.send(null);
+}
+
+>>>>>>> 924b9e291ad05c49c1c7df2d078d23b40dcccedb
 function loadSelect(populateList,divID){
   
     if(divID == "activityList"){
@@ -45,6 +59,7 @@ function loadSelect(populateList,divID){
     }  
   
 }
+<<<<<<< HEAD
 
 // Function to display last seven dates in Date Select box
 
@@ -98,5 +113,27 @@ function submitStatusForm() {
       document.getElementById('listTime').innerHTML = showEntry[i].timeHrs;
     }
   
+=======
+
+function defaultDate(){
+
+    var today = new Date(),
+        day = today.getDate(),
+        dateArray = [];
+
+    for (i=0 ; i<7 ; i++) {
+        var olderDate = new Date(today.setDate(day - i)); //Setting Dates
+        dateArray.push(olderDate.getDate() + '/' + (olderDate.getMonth()+1) + '/' + olderDate.getFullYear());
+      
+    }
+    for (j=0 ; j < dateArray.length; j++) {
+        var opt = document.createElement("option");
+        opt.text = dateArray[j];
+        opt.value = dateArray[j];
+        var select =document.getElementById("dateList");
+        select.appendChild(opt);
+    }
+    console.log(dateArray);
+>>>>>>> 924b9e291ad05c49c1c7df2d078d23b40dcccedb
 }
 

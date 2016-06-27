@@ -12,6 +12,7 @@ select {
 	float: left;
 	width: 100%;
 	margin: 5px 0;
+<<<<<<< HEAD
 }
 .listDateCnt {
 	float: left;
@@ -31,3 +32,6 @@ select {
     width: 96%;
     border: 1px solid black;
 }
+=======
+}
+>>>>>>> 924b9e291ad05c49c1c7df2d078d23b40dcccedb
