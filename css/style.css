@@ -1,3 +1,33 @@
+.mainForm , .displayEntry{
+	float: left;
+	width: 96%;
+	border: 1px solid black;
+	padding: 2%;
+	margin: 10px 0;
+}
 select {
+	width: 200px;
+}
+.row {
+	float: left;
+	width: 100%;
+	margin: 5px 0;
+}
+.listDateCnt {
+	float: left;
 	width: 100px;
+}
+.listDescriptionCnt {
+	float: left;
+	width: 700px;
+}
+.listTimeCnt {
+	float: right;
+	width: 200px;
+}
+.displayList {
+	float: left;
+    padding: 2%;
+    width: 96%;
+    border: 1px solid black;
 }
