@@ -62,7 +62,7 @@ function defaultDate(){
     for (j=0 ; j < dateArray.length; j++) {
         var opt = document.createElement("option");
         opt.text = dateArray[j];
-        opt.value = dateArray[j];
+        opt.value = j;
         var select =document.getElementById("dateList");
         select.appendChild(opt);
     }
@@ -72,31 +72,42 @@ document.getElementById("submitBtn").addEventListener("click", function(event){
     event.preventDefault();
     submitStatusForm();
 });
+
 //Function to submit form
+
 var showEntry = [];
 function submitStatusForm() {
-    var a = document.getElementById('dateList'),
-        b = document.getElementById('projectList'),
-        c = document.getElementById('activityList'),
-        d = document.getElementById('hours'),
-        e = document.getElementById('minutes'),
-        f = document.getElementById('message');
+  
+    var dateList = document.getElementById('dateList'),
+        projectList= document.getElementById('projectList'),
+        activityList = document.getElementById('activityList'),
+        hrs = document.getElementById('hours'),
+        mins = document.getElementById('minutes'),
+        msg = document.getElementById('message');
 
-    var date = a.options[a.selectedIndex].value,
-        project = b.options[b.selectedIndex].value,
-        activity = c.options[c.selectedIndex].value,
-        timeHrs = d.options[d.selectedIndex].value,
-        timeMinutes = e.options[e.selectedIndex].value,
-        description = f.value;
-
+    var date = dateList.options[dateList.selectedIndex].text,
+        dateVal = dateList.options[dateList.selectedIndex].value,
+        project = projectList.options[projectList.selectedIndex].value,
+        activity = activityList.options[activityList.selectedIndex].value,
+        timeHrs = hrs.options[hrs.selectedIndex].text,
+        timeHrsVal = hrs.options[hrs.selectedIndex].value,
+        timeMinutes = mins.options[mins.selectedIndex].value,
+        description = msg.value;
     
     showEntry.push({date, project, activity, timeHrs, timeMinutes, description});
-    console.log(showEntry);
-    for(var i=0;i<showEntry.length;i++) {
-      document.getElementById('listDate').innerHTML = showEntry[i].date;
-      document.getElementById('listDescription').innerHTML = showEntry[i].description;
-      document.getElementById('listTime').innerHTML = showEntry[i].timeHrs;
-    }
-  
-}
 
+    console.log(showEntry);
+  
+    var setContent = '';
+    for ( var j=0; j<showEntry.length; j++){
+      setContent += "<div class='displayList'><div class='listDateCnt'><span class = 'listDate' id = 'listDate'>"+showEntry[j].date+"</span>"
+              +"</div><div class= 'listDescriptionCnt'> <span class= 'listDescription' id = 'listDescription'>"+showEntry[j].description+"</span></div>"
+      +"<div class= 'listTimeCnt'><p><span class= 'listTime' id ='listTime'>"+showEntry[j].timeHrs+"</span><span class= 'listTime' id ='listTime'>"+":"+showEntry[j].timeMinutes+"</span>"
+      +"</p><p>"+showEntry[j].activity+"</p><p>"+showEntry[j].project+"</p></div></div>";
+      
+    }
+    
+    document.getElementById('displayLog').innerHTML = setContent;
+    
+}
+ 

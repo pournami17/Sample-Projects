@@ -1,18 +1,18 @@
-.mainForm , .displayEntry{
-	float: left;
-	width: 96%;
-	border: 1px solid black;
-	padding: 2%;
-	margin: 10px 0;
+.statusForm label{
+	display: block;
 }
-select {
-	width: 200px;
-}
-.row {
+.displayEntry{
 	float: left;
 	width: 100%;
-	margin: 5px 0;
-<<<<<<< HEAD
+	border: 1px solid black;
+	padding: 2%;
+	margin: 20px 0 10px 0;
+}
+.statusForm textarea {
+	width: 100%;
+}
+.selectLength {
+	width: 100%;
 }
 .listDateCnt {
 	float: left;
@@ -29,9 +29,17 @@ select {
 .displayList {
 	float: left;
     padding: 2%;
-    width: 96%;
+    width: 100%;
     border: 1px solid black;
 }
-=======
+#noResults {
+	display: block;
+	border: 1px solid black;
+	float: left;
+	width: 100%;
+	padding: 2%;
+	text-align: center;
 }
->>>>>>> 924b9e291ad05c49c1c7df2d078d23b40dcccedb
+.marginBottom {
+	margin:0 0 10px 0;
+}
