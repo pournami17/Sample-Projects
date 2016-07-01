@@ -7,6 +7,8 @@ loadJson('project.json',"projectList");
 loadJson('activityType.json',"activityList");
 
 var prevDate;
+var hoursBurned = 0;
+var minsBurned = 0;
 var total = 8;
 var showEntry = [];
 
@@ -54,11 +56,12 @@ function loadSelect(populateList,divID){
 
 function defaultDate(){
 
-    var today = new Date(),
-        day = today.getDate(),
-        dateArray = [];
+    var today;
+    var  dateArray = [];
 
     for (i=0 ; i<8 ; i++) {
+        today = new Date();
+        day = today.getDate();
         var olderDate = new Date(today.setDate(day - i)); //Setting Dates
         dateArray.push(olderDate.getDate() + '/' + (olderDate.getMonth()+1) + '/' + olderDate.getFullYear());
       
@@ -119,7 +122,7 @@ function submitStatusForm() {
 
         prevDate = date;
 
-        calTime(dateList, date, dateVal, timeHrs, timeHrsVal, hrs, mins, timeMinutes) ;
+        calTime(dateList, date, dateVal, timeHrs, timeHrsVal, hrs, mins, timeMinutes, timeMinutesVal) ;
       
         var setContent = '';
         for ( var j=0; j<showEntry.length; j++){
@@ -143,7 +146,7 @@ function clearText() {
 
 //Function to calculate time
  
-function calTime(elDateList, elDate, elDateVal, elTimeHrs, elTimeHrsVal, elHrs, elMins, elTimeMinutes){
+function calTime(elDateList, elDate, elDateVal, elTimeHrs, elTimeHrsVal, elHrs, elMins, elTimeMinutes, elTimeMinutesVal){
     console.log("Date: "+elDate);
     console.log("Value of Date:" +elDateVal);
     console.log("Time:" +elTimeHrs);
@@ -154,42 +157,56 @@ function calTime(elDateList, elDate, elDateVal, elTimeHrs, elTimeHrsVal, elHrs, 
     //condition to check mins
     if(elTimeMinutes == 15){
       elMins.selectedIndex = 3;
-      setTime(elTimeHrs, elDateList, elHrs, elMins);
+      setTime(elTimeHrs, elDateList, elHrs, elMins, elTimeHrsVal, elTimeMinutesVal, elTimeMinutes);
       
     }
     else if(elTimeMinutes == 30){
       elMins.selectedIndex = 2;
-      setTime(elTimeHrs, elDateList, elHrs);
+      setTime(elTimeHrs, elDateList, elHrs, elMins, elTimeHrsVal, elTimeMinutesVal, elTimeMinutes);
       
     }
     else if(elTimeMinutes == 45){
       elMins.selectedIndex = 1;
-      setTime(elTimeHrs, elDateList, elHrs);
+      setTime(elTimeHrs, elDateList, elHrs, elMins, elTimeHrsVal, elTimeMinutesVal, elTimeMinutes);
       
     }
     else {
       elMins.selectedIndex = 0;
-      setTime(elTimeHrs, elDateList, elHrs);
+      setTime(elTimeHrs, elDateList, elHrs, elMins, elTimeHrsVal, elTimeMinutesVal, elTimeMinutes);
       
     }
 }
 
 //Function to calculate hours
 
-function setTime(elTimeHrs, elDateList, elHrs, elMins) {
+function setTime(elTimeHrs, elDateList, elHrs, elMins, elTimeHrsVal, elTimeMinutesVal , elTimeMinutes) {
+   
+
     if(elTimeHrs<8) {
       console.log("Time less than 8 hrs");
-      total = total - (elHrs.selectedIndex + 1);
-      
-      elHrs.selectedIndex = total;
-        if(total == -1){
-          elHrs.selectedIndex = 8;
-          total = 8;
-          if(elDateList.selectedIndex != 7){
-            elDateList.selectedIndex = elDateList.selectedIndex + 1;
+      if ((elTimeMinutes == 15) ||(elTimeMinutes == 30) || (elTimeMinutes == 45)) {
+        total = total - (elHrs.selectedIndex + 1);
+        
+        elHrs.selectedIndex = total;
+          if(total == -1){
+            elHrs.selectedIndex = 8;
+            total = 8;
+            if(elDateList.selectedIndex != 7){
+              elDateList.selectedIndex = elDateList.selectedIndex + 1;
+            }
           }
-        }
-       
+       }
+      else {
+          total = total - elHrs.selectedIndex;
+          elHrs.selectedIndex = total;
+          if(total == 0){
+            elHrs.selectedIndex = 8;
+            total = 8;
+            if(elDateList.selectedIndex != 7){
+              elDateList.selectedIndex = elDateList.selectedIndex + 1;
+            }
+          }
+       }
     }
     else {
       console.log("time greater than 8 hrs");
