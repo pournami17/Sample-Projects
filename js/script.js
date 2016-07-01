@@ -183,13 +183,16 @@ function setTime(elTimeHrs, elDateList, elHrs, elMins, elTimeHrsVal, elTimeMinut
    
 
     if(elTimeHrs<8) {
+
       console.log("Time less than 8 hrs");
       if ((elTimeMinutes == 15) ||(elTimeMinutes == 30) || (elTimeMinutes == 45)) {
         total = total - (elHrs.selectedIndex + 1);
         
+        console.log(minsBurned);
         elHrs.selectedIndex = total;
           if(total == -1){
             elHrs.selectedIndex = 8;
+            elMins.selectedIndex = 0;
             total = 8;
             if(elDateList.selectedIndex != 7){
               elDateList.selectedIndex = elDateList.selectedIndex + 1;
@@ -211,6 +214,8 @@ function setTime(elTimeHrs, elDateList, elHrs, elMins, elTimeHrsVal, elTimeMinut
     else {
       console.log("time greater than 8 hrs");
       elHrs.selectedIndex = 8;
+      elTimeMinutes.selectedIndex = 0;
+      
       if(elDateList.selectedIndex != 7){
         elDateList.selectedIndex = elDateList.selectedIndex + 1;
       }
@@ -218,6 +223,6 @@ function setTime(elTimeHrs, elDateList, elHrs, elMins, elTimeHrsVal, elTimeMinut
         console.log("Date index: " + elDateList.selectedIndex);
         elHrs.selectedIndex = 0;
       }
-      console.log("time index: " + elHrs.selectedIndex);
+      console.log("time index: " + elMins.selectedIndex);
     }
 }
