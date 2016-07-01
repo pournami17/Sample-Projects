@@ -10,6 +10,13 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">		
 </head>
 <body>
+	<header class="navbar">
+      	<div class="container">
+	        <div class="navbar-header">
+	          <a class="navbar-brand" href="#"><img src="logo.png" alt="Space"></a>
+	        </div>
+      	</div>
+    </header>
 	<div class="container">
 		<div class="well">
 			<form id="dailyStatusForm" class="statusForm" method="POST" action="#">
@@ -65,6 +72,7 @@
 							<div class="col-md-6">
 								<label>Activity Description</label>
 								<textarea rows="5" name="message" id="message" maxlength="180" placeholder="Use T# or t# in your description to indicate Redmine ticket/task. For example : T#1234"></textarea>
+								<em id="errorMsg">Please enter text</em>
 							</div>
 						</div>
 					</div>
@@ -81,6 +89,9 @@
 			</div>
 		</div>
 	</div>
+	<footer class="footer">
+      	<div class="container"></div>
+    </footer>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/script.js"></script>
