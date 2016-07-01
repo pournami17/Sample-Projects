@@ -78,48 +78,6 @@ document.getElementById("submitBtn").addEventListener("click", function(event){
     submitStatusForm();
 });
 
-//Function to submit form
-
-var showEntry = [];
-function submitStatusForm() {
-  
-    var dateList = document.getElementById('dateList'),
-        projectList= document.getElementById('projectList'),
-        activityList = document.getElementById('activityList'),
-        hrs = document.getElementById('hours'),
-        mins = document.getElementById('minutes'),
-        msg = document.getElementById('message');
-
-    var date = dateList.options[dateList.selectedIndex].text,
-        dateVal = dateList.options[dateList.selectedIndex].value,
-        project = projectList.options[projectList.selectedIndex].value,
-        activity = activityList.options[activityList.selectedIndex].value,
-        timeHrs = hrs.options[hrs.selectedIndex].text,
-        timeHrsVal = hrs.options[hrs.selectedIndex].value,
-        timeMinutes = mins.options[mins.selectedIndex].text,
-        timeMinutesVal = mins.options[mins.selectedIndex].value
-        description = msg.value;
-    
-    showEntry.push({date, project, activity, timeHrs, timeMinutes, description});
-
-    console.log(showEntry);
-
-    prevDate = date;
-
-    calTime(dateList, date, dateVal, timeHrs, timeHrsVal, hrs, mins, timeMinutes) ;
-  
-    var setContent = '';
-    for ( var j=0; j<showEntry.length; j++){
-      setContent += "<div class='displayList'><div class='listDateCnt'><span class = 'listDate' id = 'listDate'>"+showEntry[j].date+"</span>"
-              +"</div><div class= 'listDescriptionCnt'> <span class= 'listDescription' id = 'listDescription'>"+showEntry[j].description+"</span></div>"
-      +"<div class= 'listTimeCnt'><p><span class= 'listTime' id ='listTime'>"+showEntry[j].timeHrs+"</span><span class= 'listTime' id ='listTime'>"+":"+showEntry[j].timeMinutes+"</span>"
-      +"</p><p>"+showEntry[j].activity+"</p><p>"+showEntry[j].project+"</p></div></div>";
-      
-    }
-    
-    document.getElementById('displayLog').innerHTML = setContent;
-    
-}
 //Function for validation
 
 function validateFields() {
@@ -214,9 +172,6 @@ function calTime(elDateList, elDate, elDateVal, elTimeHrs, elTimeHrsVal, elHrs, 
       setTime(elTimeHrs, elDateList, elHrs);
       
     }
-    
-}
-
 }
 
 //Function to calculate hours
