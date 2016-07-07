@@ -1,10 +1,12 @@
 
 window.onload = function(){
     defaultDate();
+    enableBtn();
 };
 
 loadJson('project.json',"projectList");
 loadJson('activityType.json',"activityList");
+
 
 var prevDate;
 var hoursBurned = 0;
@@ -52,20 +54,31 @@ function loadSelect(populateList,divID){
   
 }
 
-// Function to display last seven dates in Date Select box
+// Function to format date based on Time Zone
+function formatDate(elOlderDate, elOffset, elDateArray) {
+    if(elOffset < 0) {
+      elDateArray.push( ('0' + elOlderDate.getDate()).slice(-2) + '/' + ('0' + elOlderDate.getMonth()).slice(-2) + '/' + elOlderDate.getFullYear());
+    }
+    else {
+      elDateArray.push(('0' + elOlderDate.getMonth()).slice(-2) + '/' + ('0' + elOlderDate.getDate()).slice(-2) + '/' +  elOlderDate.getFullYear());
+    }
+}
 
+// Function to display last seven dates in Date Select box
 function defaultDate(){
 
     var today;
     var  dateArray = [];
+    var offset = new Date().getTimezoneOffset();
 
-    for (i=0 ; i<8 ; i++) {
+for (i=0 ; i<8 ; i++) {
         today = new Date();
         day = today.getDate();
         var olderDate = new Date(today.setDate(day - i)); //Setting Dates
-        dateArray.push(olderDate.getDate() + '/' + (olderDate.getMonth()+1) + '/' + olderDate.getFullYear());
-      
+        formatDate(olderDate, offset, dateArray);
+        date = dateArray[i];
     }
+
     for (j=7 ; j >=0; j--) {
         var opt = document.createElement("option");
         opt.text = dateArray[j];
@@ -81,6 +94,25 @@ document.getElementById("submitBtn").addEventListener("click", function(event){
     submitStatusForm();
 });
 
+document.getElementById("message").addEventListener("keyup", function(){
+    var description = document.getElementById('message');
+    var counterID = document.getElementById('counter');
+    var maxLimit = 20;
+    textCounter(description, counterID, maxLimit);
+    enableBtn();
+});
+
+//Function to enable/disable SAVE btn
+
+function enableBtn() {
+    if(document.getElementById("message").value != '') {
+      document.getElementById("submitBtn").disabled = false;
+    }
+    else {
+      document.getElementById("submitBtn").disabled = true;
+    }
+}
+
 //Function for validation
 
 function validateFields() {
@@ -90,6 +122,19 @@ function validateFields() {
     return false;
   }
   return true;
+}
+
+// Function to calculate remaining characters 
+
+function textCounter(elDescription, elCounter, elMaxLimit) {
+  var elDescriptionValLength = elDescription.value.replace(/\s/g, '').length;
+  var spaces = elDescription.value.split(' ').length - 1;
+    if(elDescriptionValLength > elMaxLimit ){
+      elDescription.value = elDescription.value.substr(0, elMaxLimit + spaces);
+    }
+    else {
+        elCounter.value = elMaxLimit - elDescriptionValLength;
+    }
 }
 
 //Function to submit form
@@ -104,7 +149,8 @@ function submitStatusForm() {
             hrs = document.getElementById('hours'),
             mins = document.getElementById('minutes'),
             msg = document.getElementById('message');
-
+            
+        // var maxLimit = 10;
 
         var date = dateList.options[dateList.selectedIndex].text,
             dateVal = dateList.options[dateList.selectedIndex].value,
@@ -113,8 +159,10 @@ function submitStatusForm() {
             timeHrs = hrs.options[hrs.selectedIndex].text,
             timeHrsVal = hrs.options[hrs.selectedIndex].value,
             timeMinutes = mins.options[mins.selectedIndex].text,
-            timeMinutesVal = mins.options[mins.selectedIndex].value
+            timeMinutesVal = mins.options[mins.selectedIndex].value,
             description = msg.value;
+
+        // textCounter(description, counter, maxLimit);
         
         showEntry.push({date, project, activity, timeHrs, timeMinutes, description});
 
@@ -134,6 +182,7 @@ function submitStatusForm() {
         }
         document.getElementById('displayLog').innerHTML = setContent;
         clearText();
+        enableBtn();
     }
     
 }
