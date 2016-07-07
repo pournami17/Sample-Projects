@@ -51,7 +51,10 @@ body {
 	padding: 2%;
 	margin: 20px 0 50px 0;
 }
-
+.counter {
+	border: none;
+	background: none;
+}
 /*-----------List------------*/
 .listDateCnt {
 	float: left;
