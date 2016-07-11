@@ -1,7 +1,8 @@
 
 window.onload = function(){
-    defaultDate();
     enableBtn();
+    geoFindLocation();
+    initialize();
 };
 
 loadJson('project.json',"projectList");
@@ -54,39 +55,83 @@ function loadSelect(populateList,divID){
   
 }
 
-// Function to format date based on Time Zone
-function formatDate(elOlderDate, elOffset, elDateArray) {
-    if(elOffset < 0) {
-      elDateArray.push( ('0' + elOlderDate.getDate()).slice(-2) + '/' + ('0' + elOlderDate.getMonth()).slice(-2) + '/' + elOlderDate.getFullYear());
-    }
-    else {
-      elDateArray.push(('0' + elOlderDate.getMonth()).slice(-2) + '/' + ('0' + elOlderDate.getDate()).slice(-2) + '/' +  elOlderDate.getFullYear());
-    }
+function initialize(){
+    geocoder = new google.maps.Geocoder();
 }
 
-// Function to display last seven dates in Date Select box
-function defaultDate(){
+// Function to display last seven dates in Date Select box if geolocation is successful
 
-    var today;
-    var  dateArray = [];
-    var offset = new Date().getTimezoneOffset();
+function success(pos){
+      var lat = pos.coords.latitude;
+      var lng = pos.coords.longitude;
+      console.log("latitude ", lat);
+      console.log("longitude ", lng);
+      var today;
+      var dateArray = [];
 
-for (i=0 ; i<8 ; i++) {
+      var latlng = new google.maps.LatLng(lat, lng);
+      geocoder.geocode({'latLng': latlng}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+          console.log(results)
+            if (results[0]) {
+             //formatted address
+             console.log(results[0].formatted_address);
+            //find country name
+                for (var i=0; i<results[0].address_components.length; i++) {
+                    for (var b=0;b<results[0].address_components[i].types.length;b++) {
+                        if (results[0].address_components[i].types[b] == "country") {
+                        
+                          country = results[0].address_components[i];
+                            break;
+                        }
+                    }
+                }
+            //country data
+            console.log(country.short_name + " " + country.long_name);
+            formatDate(country,dateArray);
+            } 
+            else {
+              console.log("No results found");
+            }
+          } 
+          else {
+            console.log("Geocoder failed due to: " + status);
+          }
+      });
+  }
+
+  function formatDate(country,dateArray) {
+      for (i=0 ; i<8 ; i++) {
         today = new Date();
         day = today.getDate();
         var olderDate = new Date(today.setDate(day - i)); //Setting Dates
-        formatDate(olderDate, offset, dateArray);
+        if(country.long_name == "India") {
+            dateArray.push( ('0' + olderDate.getDate()).slice(-2) + '/' + ('0' + (olderDate.getMonth()+1)).slice(-2) + '/' + olderDate.getFullYear());
+        }
+        else {
+          dateArray.push(('0' + (olderDate.getMonth()+1)).slice(-2) + '/' + ('0' + olderDate.getDate()).slice(-2) + '/' +  olderDate.getFullYear());
+        }
         date = dateArray[i];
-    }
+      }
 
-    for (j=7 ; j >=0; j--) {
-        var opt = document.createElement("option");
-        opt.text = dateArray[j];
-        opt.value = j;
-        var select =document.getElementById("dateList");
-        select.appendChild(opt);
-    }
-    select.selectedIndex = 7;
+      for (j=7 ; j >=0; j--) {
+          var opt = document.createElement("option");
+          opt.text = dateArray[j];
+          opt.value = j;
+          var select =document.getElementById("dateList");
+          select.appendChild(opt);
+      }
+      select.selectedIndex = 7;
+  }
+
+  function error(err) {
+      console.log('ERROR (' + err.code + '):' + err.message);
+  }
+
+//Function to find user location
+
+function geoFindLocation() {
+  navigator.geolocation.getCurrentPosition(success, error);
 }
 
 document.getElementById("submitBtn").addEventListener("click", function(event){
@@ -182,6 +227,7 @@ function submitStatusForm() {
         }
         document.getElementById('displayLog').innerHTML = setContent;
         clearText();
+        document.getElementById('counter').value = 20;
         enableBtn();
     }
     
