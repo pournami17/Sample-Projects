@@ -2,7 +2,6 @@
 window.onload = function(){
     enableBtn();
     geoFindLocation();
-    initialize();
 };
 
 loadJson('project.json',"projectList");
@@ -55,10 +54,6 @@ function loadSelect(populateList,divID){
   
 }
 
-function initialize(){
-    geocoder = new google.maps.Geocoder();
-}
-
 // Function to display last seven dates in Date Select box if geolocation is successful
 
 function success(pos){
@@ -69,6 +64,7 @@ function success(pos){
       var today;
       var dateArray = [];
 
+      geocoder = new google.maps.Geocoder();
       var latlng = new google.maps.LatLng(lat, lng);
       geocoder.geocode({'latLng': latlng}, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
